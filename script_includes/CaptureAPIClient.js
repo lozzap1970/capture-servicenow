@@ -2,7 +2,8 @@ var CaptureAPIClient = Class.create();
 CaptureAPIClient.prototype = {
     initialize: function() {
         this.baseUrl = 'https://athena-api.getaccesscapture.com';
-        this.oauthProfileName = 'Capture API OAuth'; // name of your OAuth provider record in ServiceNow
+        // TODO: set this to the exact name of your OAuth provider record in ServiceNow
+        this.oauthProfileName = 'Capture API OAuth';
     },
 
     _getToken: function() {

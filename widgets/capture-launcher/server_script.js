@@ -1,6 +1,7 @@
 (function() {
     var action = input.action;
-    var api = new x_685788_test2.CaptureAPIClient();
+    // TODO: replace scope prefix with your app scope once created in Studio
+    var api = new x_363759_capture_launcher.CaptureAPIClient();
 
     if (action === 'getEnvironments') {
         try {
