@@ -1,0 +1,225 @@
+<div class="capture-launcher">
+
+  <!-- Header -->
+  <div class="cl-header">
+    <div class="cl-header-inner">
+      <svg class="cl-logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="8" fill="#0070d2"/>
+        <path d="M8 16C8 11.58 11.58 8 16 8C18.48 8 20.7 9.06 22.24 10.76L19.66 13.34C18.8 12.5 17.46 12 16 12C13.79 12 12 13.79 12 16C12 18.21 13.79 20 16 20C17.46 20 18.8 19.5 19.66 18.66L22.24 21.24C20.7 22.94 18.48 24 16 24C11.58 24 8 20.42 8 16Z" fill="white"/>
+      </svg>
+      <div>
+        <h1 class="cl-title">Capture Automation</h1>
+        <p class="cl-subtitle">Submit and track packaging and deployment jobs</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step indicator -->
+  <div class="cl-steps" ng-if="c.step < 4">
+    <div class="cl-step" ng-class="{'active': c.step >= 1, 'done': c.step > 1}">
+      <div class="cl-step-dot"><span ng-if="c.step <= 1">1</span><span ng-if="c.step > 1">✓</span></div>
+      <span class="cl-step-label">Job Type</span>
+    </div>
+    <div class="cl-step-line" ng-class="{'active': c.step > 1}"></div>
+    <div class="cl-step" ng-class="{'active': c.step >= 2, 'done': c.step > 2}">
+      <div class="cl-step-dot"><span ng-if="c.step <= 2">2</span><span ng-if="c.step > 2">✓</span></div>
+      <span class="cl-step-label">Parameters</span>
+    </div>
+    <div class="cl-step-line" ng-class="{'active': c.step > 2}"></div>
+    <div class="cl-step" ng-class="{'active': c.step >= 3}">
+      <div class="cl-step-dot">3</div>
+      <span class="cl-step-label">Submit</span>
+    </div>
+  </div>
+
+  <div class="cl-body">
+
+    <!-- STEP 1: Job type picker -->
+    <div ng-if="c.step === 1">
+      <p class="cl-section-hint">Select the type of job you want to run</p>
+      <div class="cl-job-cards">
+
+        <div class="cl-job-card" ng-class="{'selected': c.jobType === 'discovery'}" ng-click="c.selectJob('discovery')">
+          <div class="cl-job-icon cl-icon-discovery">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+              <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="cl-job-title">Discovery</h3>
+          <p class="cl-job-desc">Scan an environment to detect installed applications and system configuration</p>
+          <div class="cl-job-select-indicator" ng-if="c.jobType === 'discovery'">Selected</div>
+        </div>
+
+        <div class="cl-job-card" ng-class="{'selected': c.jobType === 'msix'}" ng-click="c.selectJob('msix')">
+          <div class="cl-job-icon cl-icon-msix">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="3" y="3" width="8" height="8" rx="1" stroke="currentColor" stroke-width="2"/>
+              <rect x="13" y="3" width="8" height="8" rx="1" stroke="currentColor" stroke-width="2"/>
+              <rect x="3" y="13" width="8" height="8" rx="1" stroke="currentColor" stroke-width="2"/>
+              <rect x="13" y="13" width="8" height="8" rx="1" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3 class="cl-job-title">MSIX Builder</h3>
+          <p class="cl-job-desc">Package an application into MSIX format for modern Windows deployment</p>
+          <div class="cl-job-select-indicator" ng-if="c.jobType === 'msix'">Selected</div>
+        </div>
+
+        <div class="cl-job-card" ng-class="{'selected': c.jobType === 'intune'}" ng-click="c.selectJob('intune')">
+          <div class="cl-job-icon cl-icon-intune">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 3L20 7V12C20 16.42 16.42 20.42 12 21C7.58 20.42 4 16.42 4 12V7L12 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="cl-job-title">Intune Publishing</h3>
+          <p class="cl-job-desc">Deploy a packaged application to Microsoft Intune for endpoint management</p>
+          <div class="cl-job-select-indicator" ng-if="c.jobType === 'intune'">Selected</div>
+        </div>
+
+      </div>
+
+      <div class="cl-actions">
+        <button class="cl-btn cl-btn-primary" ng-disabled="!c.jobType" ng-click="c.nextStep()">
+          Continue <span class="cl-btn-arrow">→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Parameters -->
+    <div ng-if="c.step === 2">
+
+      <!-- Environment selector (shared) -->
+      <div class="cl-field">
+        <label class="cl-label">Environment <span class="cl-required">*</span></label>
+        <p class="cl-field-hint">Select the target environment for this job</p>
+        <select class="cl-select" ng-model="c.params.environmentDetailId" ng-change="c.onEnvChange()">
+          <option value="">— Select environment —</option>
+          <option ng-repeat="env in c.environments" value="{{env.id}}">{{env.name}}</option>
+        </select>
+      </div>
+
+      <!-- Discovery fields -->
+      <div ng-if="c.jobType === 'discovery'">
+        <div class="cl-info-box">
+          <svg viewBox="0 0 24 24" fill="none" class="cl-info-icon"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Discovery will scan the selected environment and report all installed applications. No additional parameters required.
+        </div>
+      </div>
+
+      <!-- MSIX Builder fields -->
+      <div ng-if="c.jobType === 'msix'">
+        <div class="cl-field">
+          <label class="cl-label">Application Path <span class="cl-required">*</span></label>
+          <p class="cl-field-hint">Full path to the application installer</p>
+          <input class="cl-input" type="text" ng-model="c.params.application" placeholder="e.g. \\server\share\setup.exe" />
+        </div>
+        <div class="cl-field">
+          <label class="cl-label">Install Arguments</label>
+          <p class="cl-field-hint">Silent install switches (optional)</p>
+          <input class="cl-input" type="text" ng-model="c.params.arguments" placeholder="e.g. /S /norestart" />
+        </div>
+        <div class="cl-field-row">
+          <div class="cl-field">
+            <label class="cl-label">Install Order</label>
+            <input class="cl-input" type="number" ng-model="c.params.installOrder" placeholder="1" min="1" />
+          </div>
+          <div class="cl-field">
+            <label class="cl-label">Timeout (hours)</label>
+            <input class="cl-input" type="number" ng-model="c.params.timeoutInHours" placeholder="2" min="1" max="24" />
+          </div>
+        </div>
+        <div class="cl-field-row cl-checkboxes">
+          <label class="cl-checkbox-label">
+            <input type="checkbox" ng-model="c.params.createAppAttach" />
+            <span class="cl-checkbox-custom"></span>
+            Create App Attach
+          </label>
+          <label class="cl-checkbox-label">
+            <input type="checkbox" ng-model="c.params.cimfsForAppAttach" />
+            <span class="cl-checkbox-custom"></span>
+            Use CimFS for App Attach
+          </label>
+        </div>
+      </div>
+
+      <!-- Intune Publishing fields -->
+      <div ng-if="c.jobType === 'intune'">
+        <div class="cl-field">
+          <label class="cl-label">Display Name <span class="cl-required">*</span></label>
+          <input class="cl-input" type="text" ng-model="c.params.displayName" placeholder="e.g. Beyond Compare 4" />
+        </div>
+        <div class="cl-field">
+          <label class="cl-label">Description</label>
+          <textarea class="cl-input cl-textarea" ng-model="c.params.description" placeholder="Brief description of the application" rows="3"></textarea>
+        </div>
+        <div class="cl-field">
+          <label class="cl-label">Install Command <span class="cl-required">*</span></label>
+          <p class="cl-field-hint">Command used to silently install the package</p>
+          <input class="cl-input" type="text" ng-model="c.params.installCommand" placeholder="e.g. msiexec /i app.msi /qn" />
+        </div>
+        <div class="cl-field-row cl-checkboxes">
+          <label class="cl-checkbox-label">
+            <input type="checkbox" ng-model="c.params.sendToAutoLaunch" />
+            <span class="cl-checkbox-custom"></span>
+            Send to Auto Launch
+          </label>
+        </div>
+      </div>
+
+      <div class="cl-actions">
+        <button class="cl-btn cl-btn-ghost" ng-click="c.prevStep()">← Back</button>
+        <button class="cl-btn cl-btn-primary" ng-disabled="!c.isStep2Valid()" ng-click="c.nextStep()">
+          Review <span class="cl-btn-arrow">→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Review & Submit -->
+    <div ng-if="c.step === 3">
+      <div class="cl-review-card">
+        <div class="cl-review-header">
+          <span class="cl-review-badge cl-badge-{{c.jobType}}">{{c.jobTypeLabel()}}</span>
+          <span class="cl-review-env">{{c.selectedEnvName()}}</span>
+        </div>
+        <div class="cl-review-body">
+          <div class="cl-review-row" ng-repeat="(key, val) in c.reviewParams()">
+            <span class="cl-review-key">{{key}}</span>
+            <span class="cl-review-val">{{val}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cl-error-box" ng-if="c.error">
+        <svg viewBox="0 0 24 24" fill="none" class="cl-error-icon"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        {{c.error}}
+      </div>
+
+      <div class="cl-actions">
+        <button class="cl-btn cl-btn-ghost" ng-disabled="c.submitting" ng-click="c.prevStep()">← Back</button>
+        <button class="cl-btn cl-btn-primary" ng-disabled="c.submitting" ng-click="c.submit()">
+          <span ng-if="!c.submitting">Submit Job</span>
+          <span ng-if="c.submitting" class="cl-spinner-wrap"><span class="cl-spinner"></span> Submitting…</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 4: Result -->
+    <div ng-if="c.step === 4">
+      <div class="cl-result" ng-class="{'cl-result-success': c.jobResult.success, 'cl-result-error': !c.jobResult.success}">
+        <div class="cl-result-icon">
+          <svg ng-if="c.jobResult.success" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M8 12l3 3 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg ng-if="!c.jobResult.success" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M15 9l-6 6M9 9l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h2 class="cl-result-title" ng-if="c.jobResult.success">Job Submitted</h2>
+        <h2 class="cl-result-title" ng-if="!c.jobResult.success">Submission Failed</h2>
+        <p class="cl-result-msg">{{c.jobResult.message}}</p>
+        <div class="cl-result-id" ng-if="c.jobResult.jobId">Job ID: <strong>{{c.jobResult.jobId}}</strong></div>
+        <div class="cl-result-actions">
+          <button class="cl-btn cl-btn-primary" ng-click="c.reset()">Submit Another Job</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

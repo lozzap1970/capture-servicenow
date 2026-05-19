@@ -1,0 +1,557 @@
+/* ===== Capture Launcher Widget ===== */
+
+.capture-launcher {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  max-width: 860px;
+  margin: 0 auto;
+  color: #1a1a2e;
+}
+
+/* Header */
+.cl-header {
+  background: linear-gradient(135deg, #0a1628 0%, #0d2b4e 60%, #0070d2 100%);
+  border-radius: 16px 16px 0 0;
+  padding: 36px 40px;
+  color: #fff;
+}
+
+.cl-header-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.cl-logo-icon {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+}
+
+.cl-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  letter-spacing: -0.3px;
+}
+
+.cl-subtitle {
+  font-size: 14px;
+  margin: 0;
+  opacity: 0.7;
+}
+
+/* Step indicator */
+.cl-steps {
+  display: flex;
+  align-items: center;
+  padding: 24px 40px;
+  background: #f8f9fc;
+  border-bottom: 1px solid #e8eaf0;
+}
+
+.cl-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cl-step-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #dde1ea;
+  color: #8892a4;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+
+.cl-step.active .cl-step-dot {
+  background: #0070d2;
+  color: #fff;
+}
+
+.cl-step.done .cl-step-dot {
+  background: #27ae60;
+  color: #fff;
+}
+
+.cl-step-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #8892a4;
+  transition: color 0.25s ease;
+}
+
+.cl-step.active .cl-step-label,
+.cl-step.done .cl-step-label {
+  color: #1a1a2e;
+}
+
+.cl-step-line {
+  flex: 1;
+  height: 2px;
+  background: #dde1ea;
+  margin: 0 12px;
+  transition: background 0.25s ease;
+}
+
+.cl-step-line.active {
+  background: #0070d2;
+}
+
+/* Body */
+.cl-body {
+  background: #fff;
+  border-radius: 0 0 16px 16px;
+  padding: 36px 40px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+.cl-section-hint {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0 0 24px;
+}
+
+/* Job type cards */
+.cl-job-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.cl-job-card {
+  border: 2px solid #e8eaf0;
+  border-radius: 12px;
+  padding: 24px 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  background: #fff;
+}
+
+.cl-job-card:hover {
+  border-color: #0070d2;
+  box-shadow: 0 4px 16px rgba(0, 112, 210, 0.12);
+  transform: translateY(-2px);
+}
+
+.cl-job-card.selected {
+  border-color: #0070d2;
+  background: #f0f7ff;
+  box-shadow: 0 4px 16px rgba(0, 112, 210, 0.15);
+}
+
+.cl-job-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.cl-job-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.cl-icon-discovery {
+  background: #e8f4fd;
+  color: #0070d2;
+}
+
+.cl-icon-msix {
+  background: #f0ebff;
+  color: #7b2ddb;
+}
+
+.cl-icon-intune {
+  background: #e8fdf0;
+  color: #1a8c4e;
+}
+
+.cl-job-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: #1a1a2e;
+}
+
+.cl-job-desc {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.cl-job-select-indicator {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0070d2;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+/* Form fields */
+.cl-field {
+  margin-bottom: 24px;
+}
+
+.cl-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.cl-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.cl-required {
+  color: #e53e3e;
+  margin-left: 2px;
+}
+
+.cl-field-hint {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 0 0 8px;
+}
+
+.cl-input,
+.cl-select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1a1a2e;
+  background: #fff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
+  appearance: none;
+}
+
+.cl-input:focus,
+.cl-select:focus {
+  outline: none;
+  border-color: #0070d2;
+  box-shadow: 0 0 0 3px rgba(0, 112, 210, 0.12);
+}
+
+.cl-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.cl-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+/* Checkboxes */
+.cl-checkboxes {
+  align-items: center;
+}
+
+.cl-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 10px 0;
+}
+
+.cl-checkbox-label input[type="checkbox"] {
+  display: none;
+}
+
+.cl-checkbox-custom {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #d1d5db;
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+  background: #fff;
+  position: relative;
+}
+
+.cl-checkbox-label input[type="checkbox"]:checked + .cl-checkbox-custom {
+  background: #0070d2;
+  border-color: #0070d2;
+}
+
+.cl-checkbox-label input[type="checkbox"]:checked + .cl-checkbox-custom::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 0;
+  width: 8px;
+  height: 11px;
+  border: 2px solid #fff;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+/* Info / error boxes */
+.cl-info-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #f0f7ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  padding: 16px;
+  font-size: 14px;
+  color: #1e40af;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.cl-info-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: #3b82f6;
+  margin-top: 1px;
+}
+
+.cl-error-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #fff5f5;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  padding: 16px;
+  font-size: 14px;
+  color: #b91c1c;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.cl-error-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: #ef4444;
+  margin-top: 1px;
+}
+
+/* Review card */
+.cl-review-card {
+  border: 1px solid #e8eaf0;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.cl-review-header {
+  background: #f8f9fc;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #e8eaf0;
+}
+
+.cl-review-badge {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cl-badge-discovery { background: #e8f4fd; color: #0070d2; }
+.cl-badge-msix { background: #f0ebff; color: #7b2ddb; }
+.cl-badge-intune { background: #e8fdf0; color: #1a8c4e; }
+
+.cl-review-env {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.cl-review-body {
+  padding: 8px 0;
+}
+
+.cl-review-row {
+  display: flex;
+  padding: 10px 20px;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 14px;
+}
+
+.cl-review-row:last-child { border-bottom: none; }
+
+.cl-review-key {
+  width: 180px;
+  flex-shrink: 0;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.cl-review-val {
+  color: #1a1a2e;
+  font-weight: 600;
+}
+
+/* Actions */
+.cl-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+/* Buttons */
+.cl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.1px;
+}
+
+.cl-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.cl-btn-primary {
+  background: #0070d2;
+  color: #fff;
+}
+
+.cl-btn-primary:hover:not(:disabled) {
+  background: #005bb5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 112, 210, 0.3);
+}
+
+.cl-btn-ghost {
+  background: transparent;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+}
+
+.cl-btn-ghost:hover:not(:disabled) {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.cl-btn-arrow { font-size: 16px; }
+
+/* Spinner */
+.cl-spinner-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cl-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: cl-spin 0.7s linear infinite;
+}
+
+@keyframes cl-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Result */
+.cl-result {
+  text-align: center;
+  padding: 48px 40px;
+}
+
+.cl-result-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.cl-result-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.cl-result-success .cl-result-icon {
+  background: #e8fdf0;
+  color: #1a8c4e;
+}
+
+.cl-result-error .cl-result-icon {
+  background: #fff5f5;
+  color: #e53e3e;
+}
+
+.cl-result-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.cl-result-msg {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0 0 16px;
+}
+
+.cl-result-id {
+  display: inline-block;
+  background: #f3f4f6;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #374151;
+  margin-bottom: 28px;
+}
+
+.cl-result-actions { margin-top: 8px; }
+
+/* Responsive */
+@media (max-width: 640px) {
+  .cl-header { padding: 24px 20px; border-radius: 12px 12px 0 0; }
+  .cl-body { padding: 24px 20px; }
+  .cl-steps { padding: 16px 20px; }
+  .cl-step-label { display: none; }
+  .cl-job-cards { grid-template-columns: 1fr; }
+  .cl-field-row { grid-template-columns: 1fr; }
+}
