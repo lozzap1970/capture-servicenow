@@ -1,7 +1,7 @@
-function($scope) {
-    var c = this;
+api.controller = function() {
+var c = this;
 
-    // State
+// State
     c.step = 1;
     c.jobType = null;
     c.params = {};
@@ -101,4 +101,4 @@ function($scope) {
         c.error = null;
         c.jobResult = null;
     };
-}
+};
